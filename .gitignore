@@ -189,3 +189,5 @@ models/*
 hw/*
 legacy_notebooks/*
 hw-*/
+annotations/*
+annotations/*
