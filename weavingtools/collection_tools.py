@@ -125,14 +125,14 @@ class SMGCollection(MultiModalCollection):
                         )
         
         self.df =  self.df.explode('img_loc')
-        self.df['img_name'] =  self.df.img_loc.apply(lambda x: x.replace('/','|') if not x in ['','nan',np.nan] else '')
+        self.df['img_name'] =  self.df.img_loc.apply(lambda x: str(x).replace('/','|') if not x in ['','nan',np.nan] else '')
         self.df['img_path'] =  self.df.apply(lambda x: self.img_folder / x.img_name if not x['img_name']=='' else '', axis=1)
         self.df['downloaded'] =  self.df.img_path.apply(lambda x: True if x in self.images else False)
 
         # replace all nans with white space
         #self.df['base_url'] = 'https://coimages.sciencemuseumgroup.org.uk/'
         base_url = 'https://coimages.sciencemuseumgroup.org.uk/'
-        self.df['img_url'] = self.df.apply(lambda x: f'{base_url}{x.img_loc.lower()}' if not x.img_loc in ['','nan',np.nan] else '', axis=1)
+        self.df['img_url'] = self.df.apply(lambda x: f'{base_url}{str(x.img_loc).lower()}' if not x.img_loc in ['','nan',np.nan] else '', axis=1)
         self.df.fillna('', inplace=True)
 
     def process_json_record(self,record: dict) -> list:
